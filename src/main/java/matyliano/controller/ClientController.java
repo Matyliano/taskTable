@@ -29,6 +29,7 @@ public class ClientController {
 
     private final ClientService clientService;
 
+
     @PostMapping("/new")
     public ResponseEntity<Client> addNewClient(@RequestBody ClientDTO newClient, User user) {
         log.info("Request to create client: {}", newClient);
