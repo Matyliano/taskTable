@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import lombok.AllArgsConstructor;
 import matyliano.dto.TaskDTO;
+import matyliano.entity.Client;
 import matyliano.entity.Comment;
 import matyliano.entity.Task;
 import matyliano.entity.User;
@@ -13,6 +14,8 @@ import matyliano.exception.notFound.TaskNotFoundException;
 import matyliano.repository.CommentRepository;
 import matyliano.repository.TaskRepository;
 import matyliano.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -23,10 +26,12 @@ public class TaskService {
     private final CommentRepository commentRepository;
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
 
-    public Collection<Task> getAllTasks() {
-        return taskRepository.findAll();
+//    public Collection<Task> getAllTasks() {
+//        return taskRepository.findAll();
+//    }
+    public Page<Task> getAllTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable);
     }
 
     public Task getOneTask(Long id) {

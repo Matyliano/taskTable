@@ -12,6 +12,8 @@ import matyliano.exception.notFound.ClientNotFoundException;
 import matyliano.repository.ClientRepository;
 import matyliano.repository.TaskRepository;
 import matyliano.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 

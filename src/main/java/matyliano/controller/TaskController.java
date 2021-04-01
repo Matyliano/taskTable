@@ -1,13 +1,18 @@
 package matyliano.controller;
 
-import java.util.Collection;
-import java.util.List;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import matyliano.dto.TaskDTO;
 import matyliano.entity.Task;
 import matyliano.entity.User;
+import matyliano.service.CsvWriterService;
 import matyliano.service.TaskService;
+import matyliano.util.CsvUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,10 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class TaskController {
 
     private final TaskService taskService;
+    private final CsvWriterService csvWriterService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<Collection<Task>> getAllTasks() {
-        return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTasks());
+    public ResponseEntity<Page<Task>> getAllTasks(@PageableDefault(size = 15) Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(taskService.getAllTasks(pageable));
     }
 
     @GetMapping("/{id}")
@@ -68,5 +74,11 @@ public class TaskController {
     @PostMapping("/assignTask/{taskId}/assignUser/{userId}")
     public User assignUser(@PathVariable Long taskId, @PathVariable Long userId) {
         return taskService.assignTaskToUser(taskId, userId);
+    }
+
+    @GetMapping("/csv")
+    public void getTaskListCsv(@PageableDefault(size = 15) Pageable pageable, HttpServletResponse response) throws IOException {
+        Page<Task> tasks = taskService.getAllTasks(pageable);
+        csvWriterService.configureCsvWriterAndPrint(response, tasks, CsvUtil.taskListHeader, "tasks.csv");
     }
 }
