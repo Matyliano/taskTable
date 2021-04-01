@@ -6,6 +6,7 @@ import matyliano.exception.exist.UserAlreadyExistException;
 import matyliano.exception.notFound.ClientNotFoundException;
 import matyliano.exception.notFound.NotEmptyException;
 import matyliano.exception.notFound.TaskNotFoundException;
+import matyliano.exception.notFound.TokenException;
 import matyliano.exception.notFound.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +42,12 @@ public class Handler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FOUND);
     }
     @ExceptionHandler(NotEmptyException.class)
-    public ResponseEntity<Object> equipmentHandleRuntimeException(NotEmptyException ex) {
+    public ResponseEntity<Object> notEmptyHandleRuntimeException(NotEmptyException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
+    @ExceptionHandler(TokenException.class)
+    public ResponseEntity<Object> tokenHandleRuntimeException(NotEmptyException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }

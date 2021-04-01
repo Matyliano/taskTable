@@ -1,30 +1,22 @@
-package matyliano.dto;
+package matyliano.entity;
 
-import java.util.List;
+import javax.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import matyliano.enums.Role;
-import org.hibernate.validator.constraints.Email;
 
-
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDTO {
-
-    private Long id;
+@Getter
+@Setter
+public class RegisterRequest {
 
     private String firstName;
-
     private String lastName;
-
-    private String username;
+    private String userName;
 
     @Email
     private String email;
-
-    List<Role> roles;
+    private String password;
 }
